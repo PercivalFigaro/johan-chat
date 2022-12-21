@@ -1,8 +1,8 @@
 <script>
 // import HelloWorld from "./components/HelloWorld.vue";
-import PocketBase from "pocketbase";
+import PocketBase from 'pocketbase';
 
-export const pb = new PocketBase("");
+export const pb = new PocketBase('');
 
 export default {
   // components: {
@@ -10,7 +10,7 @@ export default {
   // },
   data() {
     return {
-      testMessage: "tere",
+      testMessage: 'tere',
     };
   },
 };
