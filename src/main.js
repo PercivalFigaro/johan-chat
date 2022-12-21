@@ -16,3 +16,5 @@ app.use(pinia);
 app.provide('pocketbase', pb);
 
 app.mount('#app');
+
+export default pb;
