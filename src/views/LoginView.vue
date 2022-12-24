@@ -32,8 +32,6 @@ export default {
     async createUser() {
       try {
         if (this.validateInput()) {
-          // console.log("success");
-          // console.log(this.pocketbase);
           console.log(this.username, this.userPassword);
           const data = {
             username: this.username,
@@ -41,13 +39,6 @@ export default {
             passwordConfirm: this.userPassword,
           };
           this.user.createUser(data);
-          // const user = await this.pocketbase?.collection('users').create({
-          //   username: this.username,
-          //   email: 'tere@getnada.com',
-          //   password: this.userPassword,
-          //   passwordConfirm: this.userPassword,
-          // });
-          // console.log(user);
         } else {
           alert('Troubles in paradise!');
         }
@@ -66,23 +57,12 @@ export default {
   <div class="container h-100">
     <div class="w-25 mx-auto">
       <div class="form-floating mb-3">
-        <input
-          type="text"
-          class="form-control"
-          id="floatingInput"
-          placeholder="Username"
-          v-model="username"
-        />
+        <input type="text" class="form-control" id="floatingInput" placeholder="Username" v-model="username" />
         <label for="floatingInput">Username</label>
       </div>
       <div class="form-floating">
-        <input
-          type="password"
-          class="form-control"
-          id="floatingPassword"
-          placeholder="Password"
-          v-model="userPassword"
-        />
+        <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
+          v-model="userPassword" />
         <label for="floatingPassword">Password</label>
       </div>
       <!-- <p>{{ username }}</p>

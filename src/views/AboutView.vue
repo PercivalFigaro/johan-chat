@@ -1,10 +1,15 @@
 <script>
 import { userStore } from '@/stores/user';
+import UserMessage from '@/components/UserMessage.vue';
 
 export default {
+  components: {
+    UserMessage,
+  },
   data() {
     return {
-      user: userStore().loginResponse,
+      user: userStore().user,
+      messages: userStore().messages,
     };
   },
   computed: {
@@ -20,11 +25,22 @@ export default {
       }
     },
   },
+  async mounted() {
+    await userStore().fetchMessages();
+  },
 };
 </script>
 
 <template>
   <div>
     <h1>Hello, {{ userName }}</h1>
+  </div>
+  <div v-if="messages.length > 0">
+    <UserMessage
+      v-for="message in messages"
+      :key="message.id"
+      :author="message.expand.user.username"
+      :content="message.text"
+    />
   </div>
 </template>

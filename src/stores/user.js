@@ -1,10 +1,12 @@
 import { defineStore } from 'pinia';
 import pb from '@/main';
+import router from '../router';
 
 export const userStore = defineStore('main', {
   state: () => ({
     user: {},
-    loginResponse: {},
+    messages: [],
+    // loginResponse: {},
   }),
   getters: {
     getUsername() {
@@ -15,7 +17,7 @@ export const userStore = defineStore('main', {
       ) {
         return 'No user';
       } else {
-        return this.user.username;
+        return this.user.record.username;
       }
     },
   },
@@ -24,15 +26,30 @@ export const userStore = defineStore('main', {
       const result = await pb
         ?.collection('users')
         .authWithPassword(username, password);
-      console.log('log in response', result);
-      this.loginResponse = result;
+      if (result) {
+        // console.log('log in response', result);
+        this.user = result;
+        await router.push({ name: 'about' });
+      }
     },
     async createUser(data) {
       const user = await pb?.collection('users').create(data);
-      this.user = user;
+      if (user) {
+        await this.logIn(data.username, data.password);
+      }
     },
     signOut() {
       pb.authStore.clear();
+    },
+    async fetchMessages() {
+      // console.log('fetching messages. . .');
+      const result = await pb.collection('messages').getList(1, 50, {
+        sort: 'created',
+        expand: 'user',
+      });
+      if (result) {
+        this.messages = result.items;
+      }
     },
   },
 });
