@@ -11,11 +11,6 @@ export default {
       userPassword: '',
     };
   },
-  computed: {
-    filifjonka() {
-      return this.user.getUsername;
-    },
-  },
   methods: {
     validateInput() {
       if (this.username.length > 60) {
@@ -65,14 +60,11 @@ export default {
           v-model="userPassword" />
         <label for="floatingPassword">Password</label>
       </div>
-      <!-- <p>{{ username }}</p>
-      <p>{{ userPassword }}</p> -->
       <div class="d-flex justify-content-between">
         <button class="btn btn-primary" @click="logIn">Log In</button>
         <button class="btn btn-primary" @click="createUser">Sign Up</button>
       </div>
       <p>{{ user.userName }}</p>
-      <p>{{ filifjonka }}</p>
     </div>
   </div>
 </template>
