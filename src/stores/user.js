@@ -20,6 +20,16 @@ export const userStore = defineStore('main', {
         return this.user.record.username;
       }
     },
+    userIsLoggedIn() {
+      if (
+        this.user &&
+        Object.keys(this.user).length > 0 &&
+        Object.getPrototypeOf(this.user) === Object.prototype
+      ) {
+        return true;
+      }
+      return false;
+    },
   },
   actions: {
     async logIn(username, password) {
@@ -36,6 +46,7 @@ export const userStore = defineStore('main', {
       const user = await pb?.collection('users').create(data);
       if (user) {
         await this.logIn(data.username, data.password);
+        await this.fetchMessages();
       }
     },
     signOut() {

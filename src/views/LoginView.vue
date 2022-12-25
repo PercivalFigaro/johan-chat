@@ -52,12 +52,24 @@ export default {
   <div class="container h-100">
     <div class="w-25 mx-auto">
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="floatingInput" placeholder="Username" v-model="username" />
+        <input
+          type="text"
+          class="form-control"
+          id="floatingInput"
+          placeholder="Username"
+          v-model="username"
+        />
         <label for="floatingInput">Username</label>
       </div>
       <div class="form-floating">
-        <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
-          v-model="userPassword" />
+        <input
+          type="password"
+          class="form-control"
+          id="floatingPassword"
+          placeholder="Password"
+          v-model="userPassword"
+          @keyup.enter="logIn"
+        />
         <label for="floatingPassword">Password</label>
       </div>
       <div class="d-flex justify-content-between">
