@@ -7,6 +7,7 @@ import 'bootstrap/dist/js/bootstrap.js';
 
 import 'bootstrap/dist/css/bootstrap.css';
 const pb = new PocketBase(import.meta.env.VITE_POCKETBASE_URL);
+export default pb;
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -16,5 +17,3 @@ app.use(pinia);
 app.provide('pocketbase', pb);
 
 app.mount('#app');
-
-export default pb;

@@ -39,14 +39,18 @@ export const userStore = defineStore('main', {
       if (result) {
         // console.log('log in response', result);
         this.user = result;
-        await router.push({ name: 'about' });
+        await router.push({ name: 'messenger' });
       }
     },
     async createUser(data) {
-      const user = await pb?.collection('users').create(data);
-      if (user) {
-        await this.logIn(data.username, data.password);
-        await this.fetchMessages();
+      try {
+        const user = await pb?.collection('users').create(data);
+        if (user) {
+          await this.logIn(data.username, data.password);
+          await this.fetchMessages();
+        }
+      } catch (error) {
+        console.log(error);
       }
     },
     signOut() {

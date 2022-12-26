@@ -1,5 +1,4 @@
 <script>
-// import TheWelcome from "../components/TheWelcome.vue";
 import { userStore } from '@/stores/user';
 
 export default {
@@ -49,7 +48,7 @@ export default {
 </script>
 
 <template>
-  <div class="container h-100">
+  <div class="container h-100 mt-5">
     <div class="w-25 mx-auto">
       <div class="form-floating mb-3">
         <input
@@ -72,11 +71,10 @@ export default {
         />
         <label for="floatingPassword">Password</label>
       </div>
-      <div class="d-flex justify-content-between">
+      <div class="d-flex justify-content-between mt-3">
         <button class="btn btn-primary" @click="logIn">Log In</button>
         <button class="btn btn-primary" @click="createUser">Sign Up</button>
       </div>
-      <p>{{ user.userName }}</p>
     </div>
   </div>
 </template>
