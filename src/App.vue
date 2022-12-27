@@ -1,9 +1,21 @@
 <script>
+import { userStore } from '@/stores/user';
+
 export default {
   data() {
     return {
-      testMessage: 'tere',
+      test: 'message',
     };
+  },
+  computed: {
+    userIsLoggedIn() {
+      return userStore().userIsLoggedIn;
+    },
+  },
+  methods: {
+    async signOut() {
+      await userStore().signOut();
+    },
   },
 };
 </script>
@@ -24,6 +36,9 @@ export default {
               <li class="nav-item">
                 <RouterLink class="nav-link" to="/login">Login</RouterLink>
               </li>
+              <li v-if="userIsLoggedIn" class="nav-item">
+                <RouterLink class="nav-link" to="/login" @click="signOut">Sign out</RouterLink>
+              </li>
             </ul>
           </div>
         </div>
@@ -33,3 +48,4 @@ export default {
 
   <RouterView />
 </template>
+

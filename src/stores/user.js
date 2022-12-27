@@ -53,17 +53,19 @@ export const userStore = defineStore('main', {
         console.log(error);
       }
     },
-    signOut() {
+    async signOut() {
       pb.authStore.clear();
+      this.user = {};
+      this.messages = [];
     },
     async fetchMessages() {
       // console.log('fetching messages. . .');
-      const result = await pb.collection('messages').getList(1, 50, {
+      const result = await pb.collection('messages').getFullList(70, {
         sort: 'created',
         expand: 'user',
       });
       if (result) {
-        this.messages = result.items;
+        this.messages = result;
       }
     },
   },

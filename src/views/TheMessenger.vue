@@ -10,8 +10,6 @@ export default {
   data() {
     return {
       user: userStore().user,
-      messages: userStore().messages,
-      userIsLoggedIn: userStore().userIsLoggedIn,
       newMessage: '',
     };
   },
@@ -27,15 +25,33 @@ export default {
         return this.user.record.username;
       }
     },
+    theMessages() {
+      if (userStore()) {
+        return userStore().messages;
+      } else {
+        return null;
+      }
+    },
+    userIsLoggedIn() {
+      return userStore().userIsLoggedIn;
+    },
+  },
+  async created() {
+    await userStore().fetchMessages();
   },
   async mounted() {
-    await userStore().fetchMessages();
-    // pb.collection('messages').subscribe('*', async ({ action, record }) => {
-    //   if (action === 'create') {
-    //     this.messages = [...this.messages, record];
-    //     console.log('got here');
-    //   }
-    // });
+    await pb
+      .collection('messages')
+      .subscribe('*', async ({ action, record }) => {
+        if (action === 'create') {
+          const user = await pb.collection('users').getOne(record.user);
+          record.expand = { user };
+          await userStore().fetchMessages();
+        }
+      });
+  },
+  async unmounted() {
+    await pb.collection('messages').unsubscribe();
   },
   methods: {
     async sendNewMessage() {
@@ -44,6 +60,7 @@ export default {
         user: this.user.record.id,
       };
       await pb.collection('messages').create(data);
+      this.newMessage = '';
     },
   },
 };
@@ -51,16 +68,23 @@ export default {
 
 <template>
   <div>
-    <h1 v-if="userName">Hello, {{ userName }}</h1>
+    <h1 v-if="userName" class="text-center">Hello, {{ userName }}</h1>
     <div v-else class="mt-3">
       <h4 class="text-center">To see the messages, log in.</h4>
     </div>
   </div>
-  <div v-if="messages.length > 0 && userIsLoggedIn">
-    <UserMessage v-for="message in messages" :key="message.id" :author="message.expand.user.username"
-      :content="message.text" />
+  <div style="height: 80vh" class="overflow-auto d-flex flex-column-reverse">
+    <div v-if="theMessages && userIsLoggedIn">
+      <UserMessage
+        v-for="message in theMessages"
+        :key="message.id"
+        :author="message.expand.user.username"
+        :currentUser="userName"
+        :content="message.text"
+      />
+    </div>
   </div>
-  <div v-if="userIsLoggedIn" class="m-auto">
+  <div v-if="userIsLoggedIn" class="text-center m-3">
     <input type="text" v-model="newMessage" @keyup.enter="sendNewMessage" />
     <button type="submit" @click.prevent="sendNewMessage">Send</button>
   </div>
