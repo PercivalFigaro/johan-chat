@@ -38,7 +38,6 @@ export const userStore = defineStore('main', {
           ?.collection('users')
           .authWithPassword(username, password);
         if (result) {
-          // console.log('log in response', result);
           this.user = result;
           await router.push({ name: 'messenger' });
         }
@@ -86,7 +85,6 @@ export const userStore = defineStore('main', {
       this.errorMessage = '';
     },
     async fetchMessages() {
-      // console.log('fetching messages. . .');
       const result = await pb.collection('messages').getFullList(70, {
         sort: 'created',
         expand: 'user',

@@ -84,6 +84,7 @@ export default {
       <h4 class="text-center">To see the messages, log in.</h4>
     </div>
   </div>
+  <!-- User messages -->
   <div style="height: 75vh" class="overflow-auto d-flex flex-column-reverse">
     <div v-if="theMessages && userIsLoggedIn">
       <UserMessage
