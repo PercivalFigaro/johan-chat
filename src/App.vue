@@ -31,13 +31,17 @@ export default {
                 <RouterLink class="nav-link" to="/">Home</RouterLink>
               </li>
               <li class="nav-item">
-                <RouterLink class="nav-link" to="/messenger">Messenger</RouterLink>
+                <RouterLink class="nav-link" to="/messenger"
+                  >Messenger</RouterLink
+                >
               </li>
               <li class="nav-item">
                 <RouterLink class="nav-link" to="/login">Login</RouterLink>
               </li>
               <li v-if="userIsLoggedIn" class="nav-item">
-                <RouterLink class="nav-link" to="/login" @click="signOut">Sign out</RouterLink>
+                <RouterLink class="nav-link" to="/login" @click="signOut"
+                  >Sign out</RouterLink
+                >
               </li>
             </ul>
           </div>
@@ -48,4 +52,3 @@ export default {
 
   <RouterView />
 </template>
-

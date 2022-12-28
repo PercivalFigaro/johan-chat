@@ -86,13 +86,20 @@ export default {
   </div>
   <div style="height: 75vh" class="overflow-auto d-flex flex-column-reverse">
     <div v-if="theMessages && userIsLoggedIn">
-      <UserMessage v-for="message in theMessages" :key="message.id" :author="message.expand.user.username"
-        :currentUser="userName" :content="message.text" />
+      <UserMessage
+        v-for="message in theMessages"
+        :key="message.id"
+        :author="message.expand.user.username"
+        :currentUser="userName"
+        :content="message.text"
+      />
     </div>
   </div>
   <div v-if="userIsLoggedIn" class="text-center m-3">
     <input type="text" v-model="newMessage" @keyup.enter="sendNewMessage" />
     <button type="submit" @click.prevent="sendNewMessage">Send</button>
   </div>
-  <div v-if="errorMessage" class="text-center" style="color: red">{{ errorMessage }}</div>
+  <div v-if="errorMessage" class="text-center" style="color: red">
+    {{ errorMessage }}
+  </div>
 </template>
