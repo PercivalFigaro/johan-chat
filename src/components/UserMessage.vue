@@ -9,7 +9,7 @@ export default {
 </script>
 
 <template>
-  <div class="container mb-2 w-25">
+  <div class="container mb-2 w-50">
     <div
       :class="
         author === currentUser

@@ -11,6 +11,7 @@ export default {
     return {
       user: userStore().user,
       newMessage: '',
+      errorMessage: '',
     };
   },
   computed: {
@@ -55,12 +56,22 @@ export default {
   },
   methods: {
     async sendNewMessage() {
-      const data = {
-        text: this.newMessage,
-        user: this.user.record.id,
-      };
-      await pb.collection('messages').create(data);
-      this.newMessage = '';
+      try {
+        const data = {
+          text: this.newMessage,
+          user: this.user.record.id,
+        };
+        await pb.collection('messages').create(data);
+        this.newMessage = '';
+        this.errorMessage = '';
+      } catch (error) {
+        if (
+          error.data.data?.text?.message ===
+          'Must be less than 280 character(s).'
+        ) {
+          this.errorMessage = 'Message must be less than 280 characters!';
+        }
+      }
     },
   },
 };
@@ -68,24 +79,20 @@ export default {
 
 <template>
   <div>
-    <h1 v-if="userName" class="text-center">Hello, {{ userName }}</h1>
+    <h1 v-if="userName" class="text-center mt-3">Hello, {{ userName }}</h1>
     <div v-else class="mt-3">
       <h4 class="text-center">To see the messages, log in.</h4>
     </div>
   </div>
-  <div style="height: 80vh" class="overflow-auto d-flex flex-column-reverse">
+  <div style="height: 75vh" class="overflow-auto d-flex flex-column-reverse">
     <div v-if="theMessages && userIsLoggedIn">
-      <UserMessage
-        v-for="message in theMessages"
-        :key="message.id"
-        :author="message.expand.user.username"
-        :currentUser="userName"
-        :content="message.text"
-      />
+      <UserMessage v-for="message in theMessages" :key="message.id" :author="message.expand.user.username"
+        :currentUser="userName" :content="message.text" />
     </div>
   </div>
   <div v-if="userIsLoggedIn" class="text-center m-3">
     <input type="text" v-model="newMessage" @keyup.enter="sendNewMessage" />
     <button type="submit" @click.prevent="sendNewMessage">Send</button>
   </div>
+  <div v-if="errorMessage" class="text-center" style="color: red">{{ errorMessage }}</div>
 </template>
