@@ -1,6 +1,6 @@
 # johan-chat
 
-A lean and simple chat channel.
+A lean and simple chat channel built using Vue 3 (with Vue Router and Pinia), Bootstrap and Pocketbase.
 
 ## Setup
 
